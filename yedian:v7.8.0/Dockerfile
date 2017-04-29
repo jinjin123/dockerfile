@@ -1,14 +1,15 @@
-FROM docker.io/joshfinnie/nvm:latest
+M docker.io/joshfinnie/nvm:latest
 #FROM ktv4:latest
 ENV NVM_DIR /usr/local/.nvm
 #ENV NVM_VERSION v7.1.0
 ENV NODE_VERSION v7.1.0
+ENV NODE_VERSION8 v7.8.0
 RUN rm -rf $NVM_DIR
 RUN /bin/bash -c "git clone https://github.com/cnpm/nvm.git $NVM_DIR && cd $NVM_DIR && git checkout `git describe --abbrev=0 --tags`"
-RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use $NODE_VERSION"
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm install $NODE_VERSION8 && nvm use $NODE_VERSION8"
 ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/lib/node_modules
 ENV PATH      $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
-RUN npm install pm2@latest -g
+#RUN npm install pm2@latest -g
 RUN mkdir -p /var/
 #ADD APAC_Yedian_KTV_Core_Backend  /var/www/APAC_Yedian_KTV_Core_Backend
 #ADD APAC_Yedian_CMS_backend  /var/www/APAC_Yedian_CMS_backend
@@ -24,3 +25,4 @@ COPY docker-entrypoint.sh /var/www/docker-entrypoint.sh
 RUN chmod a+x /var/www/docker-entrypoint.sh
 
 ENTRYPOINT ["/var/www/docker-entrypoint.sh", "> /dev/stdout"]
+
