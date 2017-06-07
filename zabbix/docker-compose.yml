@@ -1,31 +1,22 @@
 version: '2'
 services:
-  zabbix-db:
-    image: monitoringartist/zabbix-db-mariadb
-    volumes:
-      - zabbix-db-storage:/var/lib/mysql
-      - backups:/backups
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      - MARIADB_USER=zabbix
-      - MARIADB_PASS=my_password
-  zabbix-server:
-    image: monitoringartist/zabbix-3.0-xxl
-    depends_on:
-      - zabbix-db
-    ports:
-      - "80:80"
-      - "10051:10051"
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-    links:
-      - zabbix-db:zabbix.db
-    environment:
-      - ZS_DBHost=zabbix.db
-      - ZS_DBUser=zabbix
-      - ZS_DBPassword=my_password
-volumes:
-  zabbix-db-storage:
-    driver: local
-  backups:
-    driver: local
+    server:
+      image: docker.io/monitoringartist/zabbix-xxl:latest
+      container_name: server
+      restart: always
+      ports:
+        - "81:80"
+        - "10051:10051"
+      volumes:
+        - /usr/lib64/libtokyocabinet.so.9:/usr/lib64/libtokyocabinet.so.9
+        - /etc/localtime:/etc/localtime:ro
+        - /usr/bin/mutt:/usr/bin/mutt
+        - /etc/Muttrc:/etc/Muttrc
+        - /usr/local/msmtp:/usr/local/msmtp
+        - /var/log/mmlog:/var/log/mmlog
+      environment:
+        - ZS_DBHost=172.16.102.128
+        - ZS_DBUser=zabbix
+        - ZS_DBPassword=zabbix
+        - XXL_zapix=true
+        - XXL_grapher=true
