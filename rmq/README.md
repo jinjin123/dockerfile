@@ -4,6 +4,8 @@
 #rabbitmq-plugins enable --offline rabbitmq_management
 #just enable web manage
 
+####network_mode  host  can fix it 
+
 ###add setup.sh to add user  , just use chef manage
 ```bash
         "rabbitmq": {
