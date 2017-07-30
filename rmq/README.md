@@ -1,5 +1,7 @@
 #The bind_nodename Directory  its  bind the Node_name for rabbitmq keep data
 
+###just set hostname  into  container  anydata not to be missing when container  remove
+
 ### only change  docker-entrypoint.sh 405 line
 #rabbitmq-plugins enable --offline rabbitmq_management
 #just enable web manage
